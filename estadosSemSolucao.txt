@@ -1,0 +1,2 @@
+setarEstadoAtual([0,7,6,5,3,4,1,2,8])
+setarEstadoAtual([8, 2, 1, 0, 3, 7, 6, 4, 5])

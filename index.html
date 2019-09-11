@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Trabalho 1 - Métodos de Busca</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+    <header>
+        <img src="img/brasao_site_ufsc.svg" alt="UFSC" height="40" />
+    </header>
+    <h2>Jogo 8-puzzle</h2>
+    <div>
+        <div class="tabuleiro" id="tabuleiro">
+            <div class="bloco"></div>
+            <div class="bloco"></div>
+            <div class="bloco"></div>
+
+            <div class="clearfix"></div>
+
+            <div class="bloco"></div>
+            <div class="bloco"></div>
+            <div class="bloco"></div>
+
+            <div class="clearfix"></div>
+
+            <div class="bloco"></div>
+            <div class="bloco"></div>
+            <div class="bloco vazio"></div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div id="controles" class="controles">
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="novoEstado" class="novoEstado">Defina o tabuleiro:</label>
+                        </td>
+                        <td width="200">
+                            <input type="text" name="novoEstado" id="novoEstado" value="" />
+                            <span class="explicacao">A lista deve conter os números de 0 a 8 separados por vírgula, sendo a posição vazia representada pelo zero. Ex: 6,7,2,5,3,1,0,8,4</span>
+                        </td>
+                        <td>
+                            <button type="button" name="btnSetarEstadoAtual" id="btnSetarEstadoAtual">
+                                Definir tabuleiro
+                            </button>
+                            <button type="button" name="btnSortearEstadoAtual" id="btnSortearEstadoAtual">
+                                Sortear tabuleiro
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="heuristica" class="heuristica">Heurística:</label>
+                        </td>
+                        <td>
+                            <select name="heuristica" id="heuristica">
+                                <option value="2" selected="selected">Distância até a posição correta (melhor heurística)</option>
+                                <option value="1">Número de peças fora do lugar (heurística intermediária)</option>
+                                <option value="0">Nenhuma</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="velocidade" class="velocidade">Velocidade ao mostrar a solução:</label>
+                        </td>
+                        <td>
+                            <select name="velocidade" id="velocidade">
+                                <option value="1">1 x</option>
+                                <option value="1.5">1.5 x</option>
+                                <option value="2" selected="selected">2 x</option>
+                                <option value="3">3 x</option>
+                            </select>
+                            <img src="img/play.png" class="btn-play" id="btnPlay" title="Play" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="status"></div>
+    </div>
+    <footer>
+        <div class="dados">
+            <pre>Universidade Federal de Santa Catarina
+Centro Tecnológico - CTC
+INE5633 - Sistemas Inteligentes
+Docente: Elder Rizzon Santos
+Discente: Flávio Silvino (16200899)</pre>
+        </div>
+    </footer>
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="busca.js"></script>
+    <script type="text/javascript">
+
+        function setarEstadoAtual(estado) {
+            jogo.estadoAtual = estado;
+            jogo.desenharTabuleiro(estado);
+        }
+
+        function getStrSolucao(solucao) {
+            var str = "<pre>[\n";
+            for (var i = 0; i < solucao.length; i++) {
+                if (i > 0) {
+                    str += ",\n";
+                }
+                str += " [" + solucao[i].toString() + "]";
+            }
+            str += "\n]</pre>";
+            return str;
+        }
+
+        function iniciarExibicaoSolucao(solucao, maiorTamanhoFronteira, tempo) {
+            if (solucao && solucao.length) {
+                $("#status").html("<b>Tamanho do caminho: </b> " + solucao.length + "<br />")
+                            .append("<b>Maior tamanho da fronteira: </b> " + maiorTamanhoFronteira + "<br />")
+                            .append("<b>Solução: </b> " + getStrSolucao(solucao) + "<br />");
+
+                mostrarSolucao(solucao, tempo);
+            } else {
+                $("#status").html("Erro: solução vazia");
+            }
+        }
+
+        function mostrarSolucao(solucao, tempo) {
+            jogo.desenharTabuleiro(solucao.shift());
+            if (solucao.length) {
+                setTimeout(function () {
+                    mostrarSolucao(solucao, tempo);
+                }, tempo);
+            } else {
+                $("#status").append("Fim!");
+                $("#controles").show();
+            }
+        }
+
+        var jogo = new Jogo();
+
+        $(function () {
+            jogo.reset();
+            $("#btnPlay").click(function () {
+                var vel = parseInt($("#velocidade").val());
+                jogo.heuristica = parseInt($("#heuristica").val());
+                jogo.iniciar(vel);
+            });
+
+            $("#btnSetarEstadoAtual").click(function () {
+                var estado = $.trim($("#novoEstado").val());
+                if (estado === "") {
+                    alert("Informe o tabuleiro!");
+                    return;
+                }
+
+                var msgErro = "A lista deve conter os números de 0 a 8 separados por vírgula, sendo a posição vazia representada pelo zero. Ex: 6,7,2,5,3,1,0,8,4";
+
+                var valores = estado.split(",");
+                if (valores.length != 9) {
+                    alert(msgErro);
+                    return;
+                }
+
+                var mapDuplicados = new Map();
+
+                for (var i = 0; i < valores.length; i++) {
+                    var num = parseInt(valores[i]);
+                    if (isNaN(num)) {
+                        alert(msgErro);
+                        return;
+                    }
+
+                    if (num >= 0 && num <= 8) {
+                        if (!mapDuplicados.get(num)) {
+                            mapDuplicados.set(num, true);
+                            valores[i] = num;
+                        } else {
+                            alert(msgErro);
+                            return;
+                        }
+                    } else {
+                        alert(msgErro);
+                        return;
+                    }
+                }
+
+                setarEstadoAtual(valores);
+                $("#novoEstado").val("");
+            });
+
+            $("#btnSortearEstadoAtual").click(function () {
+                jogo.reset();
+            });
+        });
+    </script>
+</body>
+</html>

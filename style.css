@@ -1,0 +1,89 @@
+﻿html, body, * {
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    background-color: #1659bf;
+    color: #fff;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tabuleiro {
+    font-family: Consolas;
+    text-align: center;
+    width: 306px;
+    margin: auto;
+}
+
+    .tabuleiro .bloco {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ccc;
+        font-size: 24px;
+        font-weight: bold;
+        display: table-cell;
+        vertical-align: middle;
+        background-color: #e8f3fc;
+    }
+
+    .tabuleiro .bloco.vazio {
+        background-color: #bdbdbd;
+    }
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+footer > .dados {
+    width: 275px;
+    margin: 30px auto;
+}
+
+label.velocidade, label.heuristica {
+    font-family: Arial;
+}
+
+.controles {
+    text-align: center;
+    margin: 15px auto;
+}
+
+#status {
+    width: 400px;
+    margin: 15px auto;
+    font-family: Arial;
+    font-size: 17px;
+}
+
+#status pre {
+    font-size: 12px;
+}
+
+.btn-play {
+    vertical-align: bottom;
+    cursor: pointer;
+}
+
+.explicacao {
+    font-size: 12px;
+    display: block;
+}
+
+.controles table tr > td {
+    padding: 10px !important;
+    text-align: left;
+    vertical-align: top;
+}
+
+#novoEstado {
+    width: 100%;
+}

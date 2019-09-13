@@ -4,95 +4,116 @@
 <head>
     <meta charset="utf-8" />
     <title>Trabalho 1 - Métodos de Busca</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://kit.fontawesome.com/f26385b371.js"></script>
 </head>
 <body>
     <header>
         <img src="img/brasao_site_ufsc.svg" alt="UFSC" height="40" />
     </header>
-    <h2>Jogo 8-puzzle</h2>
+    <h2 class="titulo-jogo">Jogo 8-puzzle</h2>
     <div>
-        <div class="tabuleiro" id="tabuleiro">
-            <div class="bloco"></div>
-            <div class="bloco"></div>
-            <div class="bloco"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="dados">
+                        <pre>Universidade Federal de Santa Catarina
+Centro Tecnológico - CTC
+INE5633 - Sistemas Inteligentes
+Docente: Elder Rizzon Santos
+Discentes: Diogo Fontana Nandi Machado (16200895)
+           Flávio Silvino (16200899)</pre>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tabuleiro" id="tabuleiro">
+                        <div class="bloco"></div>
+                        <div class="bloco"></div>
+                        <div class="bloco"></div>
 
-            <div class="clearfix"></div>
+                        <div class="clearfix"></div>
 
-            <div class="bloco"></div>
-            <div class="bloco"></div>
-            <div class="bloco"></div>
+                        <div class="bloco"></div>
+                        <div class="bloco"></div>
+                        <div class="bloco"></div>
 
-            <div class="clearfix"></div>
+                        <div class="clearfix"></div>
 
-            <div class="bloco"></div>
-            <div class="bloco"></div>
-            <div class="bloco vazio"></div>
+                        <div class="bloco"></div>
+                        <div class="bloco"></div>
+                        <div class="bloco vazio"></div>
 
-            <div class="clearfix"></div>
-        </div>
-        <div id="controles" class="controles">
-            <div>
-                <table>
-                    <tr>
-                        <td>
-                            <label for="novoEstado" class="novoEstado">Defina o tabuleiro:</label>
-                        </td>
-                        <td width="200">
-                            <input type="text" name="novoEstado" id="novoEstado" value="" />
-                            <span class="explicacao">A lista deve conter os números de 0 a 8 separados por vírgula, sendo a posição vazia representada pelo zero. Ex: 6,7,2,5,3,1,0,8,4</span>
-                        </td>
-                        <td>
-                            <button type="button" name="btnSetarEstadoAtual" id="btnSetarEstadoAtual">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="controles" class="controles">
+                        <div class="form-group">
+                            <label for="novoEstado">Defina o tabuleiro:</label>
+                            <input type="text" name="novoEstado" id="novoEstado" value="" class="form-control" />
+                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                A lista deve conter os números de 0 a 8 separados por vírgula, sendo a posição vazia representada pelo zero. Ex: 6,7,2,5,3,1,0,8,4
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" name="btnSetarEstadoAtual" id="btnSetarEstadoAtual" class="btn btn-secondary">
+                                <i class="fas fa-check"></i>
                                 Definir tabuleiro
                             </button>
-                            <button type="button" name="btnSortearEstadoAtual" id="btnSortearEstadoAtual">
+                            <button type="button" name="btnSortearEstadoAtual" id="btnSortearEstadoAtual" class="btn btn-secondary">
+                                <i class="fas fa-sync"></i>
                                 Sortear tabuleiro
                             </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="heuristica" class="heuristica">Heurística:</label>
-                        </td>
-                        <td>
-                            <select name="heuristica" id="heuristica">
+                        </div>
+                        <div class="form-group">
+                            <label for="heuristica">Heurística:</label>
+                            <select name="heuristica" id="heuristica" class="form-control">
                                 <option value="2" selected="selected">Distância até a posição correta (melhor heurística)</option>
                                 <option value="1">Número de peças fora do lugar (heurística intermediária)</option>
                                 <option value="0">Nenhuma</option>
                             </select>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="velocidade" class="velocidade">Velocidade ao mostrar a solução:</label>
-                        </td>
-                        <td>
-                            <select name="velocidade" id="velocidade">
+                        </div>
+                        <div class="form-group">
+                            <label for="velocidade">Velocidade ao mostrar a solução:</label>
+                            <select name="velocidade" id="velocidade" class="form-control">
                                 <option value="1">1 x</option>
                                 <option value="1.5">1.5 x</option>
                                 <option value="2" selected="selected">2 x</option>
                                 <option value="3">3 x</option>
                             </select>
-                            <img src="img/play.png" class="btn-play" id="btnPlay" title="Play" />
-                        </td>
-                        <td></td>
-                    </tr>
-                </table>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" name="btnPlay" id="btnPlay" class="btn btn-primary">
+                                <i class="fas fa-play"></i>
+                                Resolver tabuleiro
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card" id="card-solucao" style="display: none;">
+                        <h5 class="card-header">Solução</h5>
+                        <div class="card-body">
+                            <h5 class="card-title" id="status">Solução encontrada!</h5>
+                            <p class="card-text" id="descricao-solucao">
+                                <b>Tamanho do caminho: </b>
+                                <span id="tamanho-caminho"></span>
+                                <br />
+                                <b>Maior tamanho da fronteira: </b>
+                                <span id="maior-tamanho-fronteira"></span>
+                                <br />
+                                <b>Solução: </b> <br />
+                                <span id="solucao-completa"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div id="status"></div>
     </div>
-    <footer>
-        <div class="dados">
-            <pre>Universidade Federal de Santa Catarina
-Centro Tecnológico - CTC
-INE5633 - Sistemas Inteligentes
-Docente: Elder Rizzon Santos
-Discente: Flávio Silvino (16200899)</pre>
-        </div>
-    </footer>
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="busca.js"></script>
     <script type="text/javascript">
@@ -100,30 +121,42 @@ Discente: Flávio Silvino (16200899)</pre>
         function setarEstadoAtual(estado) {
             jogo.estadoAtual = estado;
             jogo.desenharTabuleiro(estado);
+            $("#card-solucao").hide();
         }
 
         function getStrSolucao(solucao) {
-            var str = "<pre>[\n";
+            var str = "[\n";
             for (var i = 0; i < solucao.length; i++) {
                 if (i > 0) {
-                    str += ",\n";
+                    str += ",";
+                    if (i % 10 === 0) {
+                        str += "\n";
+                    }
                 }
                 str += " [" + solucao[i].toString() + "]";
             }
-            str += "\n]</pre>";
+            str += "\n]";
             return str;
         }
 
         function iniciarExibicaoSolucao(solucao, maiorTamanhoFronteira, tempo) {
+            $("#card-solucao").show();
             if (solucao && solucao.length) {
-                $("#status").html("<b>Tamanho do caminho: </b> " + solucao.length + "<br />")
-                            .append("<b>Maior tamanho da fronteira: </b> " + maiorTamanhoFronteira + "<br />")
-                            .append("<b>Solução: </b> " + getStrSolucao(solucao) + "<br />");
-
+                $("#status").html("Solução encontrada!").removeClass("text-danger").addClass("text-success");
+                $("#descricao-solucao").show();
+                $("#tamanho-caminho").text(solucao.length);
+                $("#maior-tamanho-fronteira").text(maiorTamanhoFronteira);
+                $("#solucao-completa").text(getStrSolucao(solucao));
                 mostrarSolucao(solucao, tempo);
             } else {
-                $("#status").html("Erro: solução vazia");
+                $("#status").html("Erro: solução vazia").removeClass("text-success").addClass("text-danger");
+                $("#descricao-solucao").hide();
+                reativarForm();
             }
+        }
+
+        function reativarForm() {
+            $("#controles input, #controles button, #controles select").removeAttr("disabled");
         }
 
         function mostrarSolucao(solucao, tempo) {
@@ -133,14 +166,16 @@ Discente: Flávio Silvino (16200899)</pre>
                     mostrarSolucao(solucao, tempo);
                 }, tempo);
             } else {
-                $("#status").append("Fim!");
-                $("#controles").show();
+                reativarForm();
             }
         }
 
         var jogo = new Jogo();
 
         $(function () {
+
+            
+
             jogo.reset();
             $("#btnPlay").click(function () {
                 var vel = parseInt($("#velocidade").val());
@@ -192,6 +227,7 @@ Discente: Flávio Silvino (16200899)</pre>
 
             $("#btnSortearEstadoAtual").click(function () {
                 jogo.reset();
+                $("#card-solucao").hide();
             });
         });
     </script>

@@ -246,8 +246,10 @@ function Jogo() {
     this.iniciar = function (vel) {
         this.velocidade = vel;
         this.mostrarResolvendo();
-        this.solucao = this.busca.buscar(this.estadoAtual);
-        this.mostrarSolucao(this.solucao, this.busca.maiorTamanhoFronteira);
+        setTimeout(function () {
+            self.solucao = self.busca.buscar(self.estadoAtual);
+            self.mostrarSolucao(self.solucao, self.busca.maiorTamanhoFronteira);
+        }, 600);
     };
 
     this.ehEstadoFinal = function (estado) {
@@ -283,8 +285,10 @@ function Jogo() {
     };
 
     this.mostrarResolvendo = function () {
-        $("#status").html("Resolvendo...");
-        $("#controles").hide();
+        $("#controles input, #controles button, #controles select").attr("disabled", "disabled");
+        $("#status").html("Resolvendo...").removeClass();
+        $("#descricao-solucao").hide();
+        $("#card-solucao").show();
     };
 
     this.mostrarSolucao = function (solucao, maiorTamanhoFronteira) {
